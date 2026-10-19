@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyek Web Siswa - Konsumsi API Data Siswa</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div>
+                <h1>Portal Data Siswa SMK</h1>
+                <p>Praktikum Integrasi RESTful API dengan Fetch API (JavaScript Modern)</p>
+            </div>
+            <button class="btn btn-primary" id="btnBukaModal">+ Tambah Siswa Baru</button>
+        </header>
+
+        <!-- Baris Statistik Ringkas -->
+        <section class="stats-row" id="statsRow">
+            <div class="stat-card">
+                <span class="stat-label">Total Siswa</span>
+                <span class="stat-value" id="statTotal">--</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Siswa Laki-laki</span>
+                <span class="stat-value text-blue" id="statLaki">--</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Siswa Perempuan</span>
+                <span class="stat-value text-pink" id="statPerempuan">--</span>
+            </div>
+        </section>
+
+        <!-- Filter & Search Bar -->
+        <section class="filter-card">
+            <div class="filter-grid">
+                <div class="form-group">
+                    <label for="inputCari">Cari Nama atau NIS:</label>
+                    <input type="text" id="inputCari" placeholder="Ketik nama atau NIS lalu Enter..." />
+                </div>
+                <div class="form-group">
+                    <label for="selectJurusan">Filter Jurusan:</label>
+                    <select id="selectJurusan">
+                        <option value="">Semua Jurusan</option>
+                        <option value="Rekayasa Perangkat Lunak">Rekayasa Perangkat Lunak</option>
+                        <option value="Teknik Komputer dan Jaringan">Teknik Komputer dan Jaringan</option>
+                        <option value="Desain Komunikasi Visual">Desain Komunikasi Visual</option>
+                        <option value="Akuntansi dan Keuangan Lembaga">Akuntansi dan Keuangan Lembaga</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="selectGender">Jenis Kelamin:</label>
+                    <select id="selectGender">
+                        <option value="">Semua</option>
+                        <option value="L">Laki-laki (L)</option>
+                        <option value="P">Perempuan (P)</option>
+                    </select>
+                </div>
+                <div class="filter-actions">
+                    <button class="btn btn-outline" id="btnReset">Reset Filter</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Status Loading / Pesan -->
+        <div id="loadingStatus" class="alert info">Mengambil data dari API...</div>
+
+        <!-- Grid Kartu Siswa -->
+        <main class="students-grid" id="studentsContainer">
+            <!-- Kartu-kartu siswa akan dirender di sini oleh JavaScript -->
+        </main>
+
+        <!-- Modal Tambah Siswa -->
+        <div class="modal-overlay" id="modalTambah">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Tambah Data Siswa Baru</h3>
+                    <button class="btn-close" id="btnTutupModal">&times;</button>
+                </div>
+                <form id="formTambahSiswa">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>NIS *</label>
+                            <input type="text" name="nis" required placeholder="Contoh: 102301011" maxlength="10">
+                        </div>
+                        <div class="form-group">
+                            <label>Nama Lengkap *</label>
+                            <input type="text" name="nama" required placeholder="Contoh: Rizki Pratama">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Jenis Kelamin *</label>
+                            <select name="jenis_kelamin" required>
+                                <option value="L">Laki-laki</option>
+                                <option value="P">Perempuan</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Agama *</label>
+                            <input type="text" name="agama" required placeholder="Islam, Kristen, dll">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tempat Lahir *</label>
+                            <input type="text" name="tempat_lahir" required placeholder="Jakarta">
+                        </div>
+                        <div class="form-group">
+                            <label>Tanggal Lahir *</label>
+                            <input type="date" name="tanggal_lahir" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Kelas *</label>
+                            <input type="text" name="kelas" required placeholder="XI-RPL-1">
+                        </div>
+                        <div class="form-group">
+                            <label>Jurusan *</label>
+                            <input type="text" name="jurusan" required placeholder="Rekayasa Perangkat Lunak">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Tahun Masuk (4 digit) *</label>
+                            <input type="text" name="tahun_masuk" required placeholder="2024" maxlength="4">
+                        </div>
+                        <div class="form-group">
+                            <label>No. Telepon</label>
+                            <input type="text" name="no_telp" placeholder="08123456789">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Alamat Lengkap *</label>
+                        <textarea name="alamat" required rows="2" placeholder="Nama jalan, nomor rumah, RT/RW, kota"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline" id="btnBatal">Batal</button>
+                        <button type="submit" class="btn btn-primary" id="btnSimpan">Simpan Siswa</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
