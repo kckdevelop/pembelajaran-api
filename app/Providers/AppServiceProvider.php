@@ -19,6 +19,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // Otomatis buat file database SQLite jika belum ada di server hosting
+        if (config('database.default') === 'sqlite') {
+            $dbPath = config('database.connections.sqlite.database');
+            if ($dbPath && !file_exists($dbPath) && $dbPath !== ':memory:') {
+                @touch($dbPath);
+            }
+        }
     }
 }

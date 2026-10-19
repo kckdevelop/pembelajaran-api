@@ -394,9 +394,12 @@
                 <span class="tag">🌐 CORS Enabled (* All Origins)</span>
                 <span class="tag">📦 Format: JSON Standard</span>
             </div>
-            <div>
+            <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
                 <a href="#tester" class="doc-link-btn">
                     Coba Uji API Langsung (Live Tester) ↓
+                </a>
+                <a href="{{ url('/starter-kit/index.html') }}" class="doc-link-btn" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+                    Buka Frontend Demo (Starter Kit) 🚀
                 </a>
             </div>
         </header>
@@ -508,7 +511,7 @@
         <footer>
             <p><strong>Jobsheet & Dokumentasi Pembelajaran API</strong> — Disiapkan untuk Guru & Siswa SMK / Web Developer Pemula</p>
             <p style="margin-top: 0.5rem; font-size: 0.8rem; color: #64748b;">
-                Base URL Server: <code>http://127.0.0.1:8000/api</code>
+                Base URL Server: <code>{{ url('/api') }}</code> | Endpoint Siswa: <code>{{ url('/api/siswas') }}</code>
             </p>
         </footer>
     </div>

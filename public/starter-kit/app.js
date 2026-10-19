@@ -11,7 +11,10 @@
  */
 
 // 1. Tentukan Base URL API Server Laravel
-const API_BASE_URL = 'http://127.0.0.1:8000/api';
+// Otomatis menyesuaikan domain saat di-hosting online atau dijalankan di localhost
+const API_BASE_URL = window.location.protocol.startsWith('http')
+    ? `${window.location.origin}/api`
+    : 'http://127.0.0.1:8000/api';
 
 // 2. Seleksi Elemen-elemen DOM
 const containerSiswa = document.getElementById('studentsContainer');

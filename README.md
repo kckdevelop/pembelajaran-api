@@ -63,3 +63,11 @@ Jika selama praktikum siswa menambahkan atau menghapus data dan Anda ingin menge
 ```bash
 php artisan migrate:fresh --seed
 ```
+
+---
+
+## 🌐 Cara Deploy ke Hosting Online (cPanel / Cloud / VPS)
+Proyek ini sudah dilengkapi konfigurasi root `.htaccess`, Reverse Proxy SSL trust, Procfile PaaS, dan URL auto-detect pada Frontend starter kit.
+
+👉 **Lihat panduan langkah demi langkah:** [`PANDUAN-DEPLOY-HOSTING.md`](file:///e:/PEMBELAJARAN-API/PANDUAN-DEPLOY-HOSTING.md)
+
