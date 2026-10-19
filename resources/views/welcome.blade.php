@@ -395,6 +395,9 @@
                 <span class="tag">📦 Format: JSON Standard</span>
             </div>
             <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                <a href="{{ url('/docs') }}" class="doc-link-btn" style="background: linear-gradient(135deg, #f59e0b, #ef4444);">
+                    Dokumentasi Lengkap API 📖
+                </a>
                 <a href="#tester" class="doc-link-btn">
                     Coba Uji API Langsung (Live Tester) ↓
                 </a>

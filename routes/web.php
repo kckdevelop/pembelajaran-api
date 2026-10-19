@@ -6,6 +6,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/docs', function () {
+    return view('docs');
+});
+
+Route::get('/dokumentasi', function () {
+    return view('docs');
+});
+
+
 /**
  * Route Helper untuk Shared Hosting / cPanel yang tidak memiliki akses SSH Terminal.
  * Cukup buka URL https://domain-anda.com/setup-database sekali untuk inisialisasi tabel & data seeder.
