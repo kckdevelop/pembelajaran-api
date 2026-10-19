@@ -79,9 +79,13 @@ Karena proyek ini sudah terhubung ke GitHub `kckdevelop/pembelajaran-api`, Anda 
    * `APP_ENV` = `production`
    * `APP_DEBUG` = `false`
    * `APP_URL` = `https://<nama-app>.onrender.com`
-   * `DB_CONNECTION` = `sqlite`
+   * `CACHE_STORE` = `file` (Wajib: agar migrasi database tidak error mencari tabel cache_locks sebelum dibuat)
+   * `DB_CONNECTION` = `sqlite` (atau `mysql` jika menghubungkan database MySQL cloud)
 6. Klik **Deploy**.
 7. Setelah selesai dideploy, buka `https://<nama-app>.onrender.com/setup-database` sekali untuk mengisi data awal siswa.
+
+> 💡 **Solusi Error `Table 'cache_locks' doesn't exist` Saat Deploy:**
+> Jika muncul error `SQLSTATE[42S02]: Table '...cache_locks' doesn't exist` saat deployment menjalankan migrasi, pastikan Environment Variable `CACHE_STORE=file` sudah ditambahkan di panel hosting. Di proyek ini, `config/cache.php` dan `.env.example` sudah disetel default ke `file`.
 
 ---
 
