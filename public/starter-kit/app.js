@@ -8,6 +8,7 @@
  * 4. Filter & Search via Query Parameters API
  * 5. Mengirim data baru dengan method POST
  * 6. Menghapus data dengan method DELETE
+ * 7. Menghapus semua data dengan method DELETE (Bulk Delete)
  */
 
 // 1. Tentukan Base URL API Server Laravel
@@ -23,6 +24,7 @@ const inputCari = document.getElementById('inputCari');
 const selectJurusan = document.getElementById('selectJurusan');
 const selectGender = document.getElementById('selectGender');
 const btnReset = document.getElementById('btnReset');
+const btnHapusSemua = document.getElementById('btnHapusSemua');
 
 // Elemen Statistik
 const statTotal = document.getElementById('statTotal');
@@ -91,8 +93,14 @@ function tampilkanDataSiswa(daftarSiswa) {
     if (!daftarSiswa || daftarSiswa.length === 0) {
         containerSiswa.innerHTML = `
             <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #64748b;">
-                <h3>Tidak ada data siswa yang cocok</h3>
-                <p>Coba ubah kata kunci pencarian atau reset filter.</p>
+                <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📭</div>
+                <h3>Tidak ada data siswa</h3>
+                <p>Data belum ada atau filter tidak cocok. Anda bisa menambah data baru atau mengisi ulang data seeder demo.</p>
+                <div style="margin-top: 1.25rem; display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="/setup-database" target="_blank" class="btn btn-outline btn-sm" style="text-decoration: none; display: inline-flex; align-items: center; gap: 0.35rem;">
+                        🌱 Isi Ulang Data Demo (Seeder)
+                    </a>
+                </div>
             </div>
         `;
         return;
@@ -229,6 +237,50 @@ async function hapusSiswa(id, nama) {
     }
 }
 
+/**
+ * LANGKAH 6: Menghapus SEMUA Data Siswa Sekaligus (DELETE /api/siswas)
+ */
+async function hapusSemuaSiswa() {
+    const totalSiswa = statTotal.textContent;
+    if (totalSiswa === '0' || totalSiswa === '--') {
+        alert('Tidak ada data siswa untuk dihapus.');
+        return;
+    }
+
+    const konfirmasi = confirm(
+        `⚠️ PERINGATAN: Apakah Anda yakin ingin menghapus SEMUA data siswa (${totalSiswa} siswa)?\n\nTindakan ini akan menghapus seluruh rekaman siswa dari database!`
+    );
+    if (!konfirmasi) return;
+
+    try {
+        btnHapusSemua.disabled = true;
+        btnHapusSemua.textContent = 'Menghapus Semua...';
+
+        const response = await fetch(`${API_BASE_URL}/siswas`, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        const hasil = await response.json();
+
+        if (response.ok && hasil.success) {
+            alert(hasil.message || 'Semua data siswa berhasil dihapus.');
+            ambilDataSiswa();
+            ambilStatistik();
+        } else {
+            alert(`Gagal menghapus semua data: ${hasil.message || 'Terjadi kesalahan sistem'}`);
+        }
+    } catch (error) {
+        console.error('Error saat menghapus semua siswa:', error);
+        alert(`Error saat menghapus semua data: ${error.message}`);
+    } finally {
+        btnHapusSemua.disabled = false;
+        btnHapusSemua.innerHTML = '🗑️ Hapus Semua Data';
+    }
+}
+
 // Event Listeners untuk Filter & Search
 inputCari.addEventListener('keyup', (e) => {
     if (e.key === 'Enter') ambilDataSiswa();
@@ -242,6 +294,9 @@ btnReset.addEventListener('click', () => {
     selectGender.value = '';
     ambilDataSiswa();
 });
+
+// Event Listener Hapus Semua Data
+btnHapusSemua.addEventListener('click', hapusSemuaSiswa);
 
 // Modal Events
 btnBukaModal.addEventListener('click', () => modalTambah.classList.add('active'));

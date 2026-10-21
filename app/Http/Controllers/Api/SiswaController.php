@@ -236,6 +236,21 @@ class SiswaController extends Controller
     }
 
     /**
+     * Menghapus semua data siswa sekaligus (DELETE /api/siswas atau DELETE /api/siswas/hapus-semua).
+     */
+    public function destroyAll(): JsonResponse
+    {
+        $totalDihapus = Siswa::count();
+        Siswa::query()->delete();
+
+        return response()->json([
+            'success'       => true,
+            'message'       => "Semua data siswa berhasil dihapus ({$totalDihapus} data dihapus)",
+            'total_deleted' => $totalDihapus,
+        ], 200);
+    }
+
+    /**
      * Statistik ringkas data siswa untuk dashboard pembelajaran (GET).
      */
     public function statistik(): JsonResponse

@@ -26,6 +26,7 @@ Route::get('/', function () {
             'POST /api/siswas'          => 'Menambahkan data siswa baru',
             'PUT /api/siswas/{id}'      => 'Memperbarui data siswa',
             'DELETE /api/siswas/{id}'   => 'Menghapus data siswa',
+            'DELETE /api/siswas'        => 'Menghapus SEMUA data siswa sekaligus',
             'GET /api/siswas/statistik' => 'Statistik ringkas data siswa (total, gender, jurusan, kelas)',
         ],
     ]);
@@ -34,5 +35,10 @@ Route::get('/', function () {
 // Endpoint Statistik (Didefinisikan sebelum apiResource agar tidak dianggap {id})
 Route::get('/siswas/statistik', [SiswaController::class, 'statistik']);
 
+// Endpoint Hapus Semua Siswa (Didefinisikan sebelum apiResource agar tidak bentrok)
+Route::delete('/siswas/hapus-semua', [SiswaController::class, 'destroyAll']);
+Route::delete('/siswas', [SiswaController::class, 'destroyAll']);
+
 // Endpoint CRUD Siswa Lengkap
 Route::apiResource('siswas', SiswaController::class);
+

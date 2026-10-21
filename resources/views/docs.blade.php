@@ -866,7 +866,13 @@
                 </li>
                 <li>
                     <a href="#endpoint-delete" class="sidebar-link">
-                        <span>Hapus Data Siswa</span>
+                        <span>Hapus Siswa (ID)</span>
+                        <span class="method-badge method-delete" style="font-size:0.65rem; padding: 0.1rem 0.35rem;">DEL</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#endpoint-delete-all" class="sidebar-link">
+                        <span>Hapus Semua Siswa</span>
                         <span class="method-badge method-delete" style="font-size:0.65rem; padding: 0.1rem 0.35rem;">DEL</span>
                     </a>
                 </li>
@@ -1662,6 +1668,58 @@ res = requests.<span class="c-fn">post</span>(<span class="c-str">"{{ url('/api/
 <pre id="c-del-response" style="display:none;"><code>{
   <span class="c-prop">"success"</span>: <span class="c-bool">true</span>,
   <span class="c-prop">"message"</span>: <span class="c-str">"Data siswa berhasil dihapus"</span>
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Endpoint 5b: DELETE /api/siswas -->
+            <div class="endpoint-card" id="endpoint-delete-all">
+                <div class="endpoint-header">
+                    <div class="endpoint-title-group">
+                        <span class="method-badge method-delete">DELETE</span>
+                        <span class="endpoint-url">/api/siswas</span>
+                    </div>
+                    <button class="copy-url-btn" onclick="copySnippet('{{ url('/api/siswas') }}')">Salin URL 📋</button>
+                </div>
+                <div class="endpoint-desc-text">
+                    Menghapus seluruh rekaman data siswa di database secara massal (Bulk Delete). Bisa juga diakses melalui <code>/api/siswas/hapus-semua</code>.
+                </div>
+
+                <div class="code-tabs-wrapper">
+                    <div class="tabs-header">
+                        <div class="tabs-nav" id="tabs-del-all">
+                            <button class="tab-btn active" onclick="switchTab(this, 'c-delall-fetch')">JavaScript (Fetch)</button>
+                            <button class="tab-btn" onclick="switchTab(this, 'c-delall-curl')">cURL</button>
+                            <button class="tab-btn" onclick="switchTab(this, 'c-delall-response')" style="color: #34d399;">Contoh Response 200</button>
+                        </div>
+                        <button class="tab-copy-btn" onclick="copyActiveCode('tabs-del-all')">Salin Kode 📋</button>
+                    </div>
+
+                    <div class="code-container">
+<!-- FETCH DEL ALL -->
+<pre id="c-delall-fetch"><code><span class="c-kw">async function</span> <span class="c-fn">hapusSemuaSiswa</span>() {
+  <span class="c-kw">if</span> (!confirm(<span class="c-str">'PERINGATAN: Yakin ingin menghapus SEMUA data siswa?'</span>)) <span class="c-kw">return</span>;
+  
+  <span class="c-kw">const</span> response = <span class="c-kw">await</span> <span class="c-fn">fetch</span>(<span class="c-str">'{{ url('/api/siswas') }}'</span>, {
+    method: <span class="c-str">'DELETE'</span>,
+    headers: { <span class="c-str">'Accept'</span>: <span class="c-str">'application/json'</span> }
+  });
+  <span class="c-kw">const</span> result = <span class="c-kw">await</span> response.<span class="c-fn">json</span>();
+  alert(result.message);
+}
+
+<span class="c-fn">hapusSemuaSiswa</span>();</code></pre>
+
+<!-- CURL DEL ALL -->
+<pre id="c-delall-curl" style="display:none;"><code>curl -X DELETE <span class="c-str">"{{ url('/api/siswas') }}"</span> \
+  -H <span class="c-str">"Accept: application/json"</span></code></pre>
+
+<!-- RES DEL ALL -->
+<pre id="c-delall-response" style="display:none;"><code>{
+  <span class="c-prop">"success"</span>: <span class="c-bool">true</span>,
+  <span class="c-prop">"message"</span>: <span class="c-str">"Semua data siswa berhasil dihapus (12 data dihapus)"</span>,
+  <span class="c-prop">"total_deleted"</span>: <span class="c-num">12</span>
 }</code></pre>
                     </div>
                 </div>
