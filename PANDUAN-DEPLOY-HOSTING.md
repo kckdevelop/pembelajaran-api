@@ -97,8 +97,9 @@ Jika Anda menggunakan VPS Linux:
 git clone https://github.com/kckdevelop/pembelajaran-api.git /var/www/api-siswa
 cd /var/www/api-siswa
 
-# 2. Install dependensi
+# 2. Install dependensi PHP
 composer install --optimize-autoloader --no-dev
+# Catatan: TIDAK PERLU menjalankan 'npm install' di server karena halaman web & starter kit menggunakan CSS/JS vanilla murni tanpa proses build.
 
 # 3. Setup .env & Key
 cp .env.example .env
@@ -116,6 +117,14 @@ php artisan config:cache
 php artisan route:cache
 php artisan view:cache
 ```
+
+> ⚠️ **Catatan Error `npm install` di Server / VPS:**
+> Proyek API ini tidak membutuhkan `npm install` di server. Namun jika Anda tetap ingin menjalankan `npm` di server VPS, pastikan Node.js sudah diupdate ke versi minimal v20 (karena bawaan `apt install nodejs` di Ubuntu lama sering kali Node v8/v10 yang sudah usang dan menyebabkan `SyntaxError: Unexpected token {` pada `esbuild`).
+> Perintah update Node.js v20 di Ubuntu/Debian:
+> ```bash
+> curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+> sudo apt-get install -y nodejs
+> ```
 
 ---
 
